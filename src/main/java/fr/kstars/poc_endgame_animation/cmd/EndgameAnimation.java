@@ -12,6 +12,7 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,6 +31,8 @@ import java.util.Objects;
 public class EndgameAnimation implements CommandExecutor {
     private final JavaPlugin plugin;
     private final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+
+    private final Location WordSpawnLocation = new Location(Bukkit.getWorld("world"), 26.480, 0, 7.504, 0f, 0);
 
     public EndgameAnimation(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -62,7 +65,7 @@ public class EndgameAnimation implements CommandExecutor {
                 }
 
                 Title startingAnimationTitle = Title.title(
-                        Component.text("§cEndGame Animation"),
+                        Component.text("§6EndGame Animation"),
                         Component.text("Starting in " + startingAnimationTitleCooldown + " second(s)"),
                         Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(1), Duration.ofSeconds(1))
                 );
@@ -90,7 +93,7 @@ public class EndgameAnimation implements CommandExecutor {
 
     private void teleportPlayerInLobby(Player player) {
         Title gameTerminatedTitle = Title.title(
-                Component.text("§cGame Terminated"),
+                Component.text("§6Game Terminated"),
                 Component.text("Teleport to lobby..."),
                 Title.Times.times(Duration.ofSeconds(3), Duration.ofSeconds(3), Duration.ofSeconds(3))
         );
@@ -102,7 +105,7 @@ public class EndgameAnimation implements CommandExecutor {
             @Override
             public void run() {
                 removeCameraToEntity(player);
-                player.teleport(player.getWorld().getSpawnLocation());
+                player.teleport(WordSpawnLocation);
                 player.setGameMode(GameMode.SURVIVAL);
                 CitizensAPI.getNPCRegistry().deregisterAll();
             }
@@ -134,6 +137,8 @@ public class EndgameAnimation implements CommandExecutor {
                 NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, podiumList.get(index).getWinnerName());
                 Objects.requireNonNull(podiumList.get(index).getPlaceLocation().getWorld()).strikeLightningEffect(podiumList.get(index).getPlaceLocation());
                 npc.spawn(podiumList.get(index).getPlaceLocation());
+
+                player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
                 index--;
             }
         }.runTaskTimer(plugin, 20L, 40L);
