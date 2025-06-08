@@ -1,19 +1,24 @@
 package fr.kstars.poc_endgame_animation.cmd;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
 import fr.kstars.poc_endgame_animation.model.Podium;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +29,7 @@ import java.util.Objects;
 
 public class EndgameAnimation implements CommandExecutor {
     private final JavaPlugin plugin;
+    private final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 
     public EndgameAnimation(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -49,6 +55,7 @@ public class EndgameAnimation implements CommandExecutor {
                     cancel();
                     player.resetTitle();
 
+                    player.setGameMode(GameMode.SPECTATOR);
                     teleportPlayerFrontOfPodium(player);
                     spawnTopPlayersOnPodium(player);
                     return;
@@ -68,12 +75,18 @@ public class EndgameAnimation implements CommandExecutor {
     }
 
     private void teleportPlayerFrontOfPodium(Player player) {
-        Location endGameSpecLocation = new Location(Bukkit.getWorld("lobby_world"), -1.725, 101, 0.503);
+        Location endGameSpecLocation = new Location(Bukkit.getWorld("lobby_world"), -0.520, 101, 0.502);
         endGameSpecLocation.setYaw(-90);
 
-        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "PODIUM SPECTATE");
+        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "PODIUM SPECTATE NPC");
         npc.spawn(endGameSpecLocation);
-        //TODO SET PLAYER CAMERA TO NPC AND UNLOCK WHEN TELEPORTED IN LOBBY
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                setCameraToEntity(player, npc.getEntity());
+            }
+        }.runTaskLater(plugin, 1L);
     }
 
     private void teleportPlayerInLobby(Player player) {
@@ -84,12 +97,17 @@ public class EndgameAnimation implements CommandExecutor {
         );
 
         player.showTitle(gameTerminatedTitle);
-        player.showPlayer(plugin, player);
-        player.removePotionEffect(PotionEffectType.SLOWNESS);
-        player.setWalkSpeed(0.2f);
-        player.setFlySpeed(0.2f);
-        player.teleport(player.getWorld().getSpawnLocation());
-        CitizensAPI.getNPCRegistry().deregisterAll();
+
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                removeCameraToEntity(player);
+                player.teleport(player.getWorld().getSpawnLocation());
+                player.setGameMode(GameMode.SURVIVAL);
+                CitizensAPI.getNPCRegistry().deregisterAll();
+            }
+        }.runTaskLater(plugin, 100L);
     }
 
     private void spawnTopPlayersOnPodium(Player player) {
@@ -114,14 +132,36 @@ public class EndgameAnimation implements CommandExecutor {
                     return;
                 }
 
-                Objects.requireNonNull(Bukkit.getWorld("lobby_world")).strikeLightningEffect(lastPlaceLocation);
-
                 NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, podiumList.get(index).getWinnerName());
                 Objects.requireNonNull(podiumList.get(index).getPlaceLocation().getWorld()).strikeLightningEffect(podiumList.get(index).getPlaceLocation());
                 npc.spawn(podiumList.get(index).getPlaceLocation());
                 index--;
             }
-        }.runTaskTimer(plugin, 0L, 40L);
+        }.runTaskTimer(plugin, 20L, 40L);
+    }
+
+    public void setCameraToEntity(Player player, Entity entity) {
+        PacketContainer cameraPacket = protocolManager.createPacket(PacketType.Play.Server.CAMERA);
+
+        cameraPacket.getIntegers().write(0, entity.getEntityId());
+
+        try {
+            protocolManager.sendServerPacket(player, cameraPacket);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeCameraToEntity(Player player) {
+        PacketContainer cameraPacket = protocolManager.createPacket(PacketType.Play.Server.CAMERA);
+
+        cameraPacket.getIntegers().write(0, player.getEntityId());
+
+        try {
+            protocolManager.sendServerPacket(player, cameraPacket);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -5,6 +5,7 @@ main: fr.kstars.poc_endgame_animation.Main
 api-version: '1.21'
 softdepend:
   - Citizens
+  - ProtocolLib
 commands:
   endgame_animation:
     description: Start the endgame animation

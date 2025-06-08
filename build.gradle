@@ -19,11 +19,15 @@ repositories {
     maven {
         url = "https://repo.citizensnpcs.co/"
     }
+    maven {
+        url = uri("https://repo.dmulloy2.net/repository/public/")
+    }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    compileOnly 'net.citizensnpcs:citizens-main:2.0.37-SNAPSHOT'
+    compileOnly("net.citizensnpcs:citizens-main:2.0.37-SNAPSHOT")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0")
 }
 
 tasks {
