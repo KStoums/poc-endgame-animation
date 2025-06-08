@@ -20,8 +20,9 @@ This plugin adds a basic endgame animation:
 ## Setup
 
 1. Install Paper, ProtocolLib, and Citizens on your server.
-2. Compile and place the plugin JAR in the `plugins/` folder.
-3. Use the command:
+2. Modify the coordinates of the location in front of the podium and the 3 podium locations in EndGameAnimation.java
+3. Compile and place the plugin JAR in the `plugins/` folder.
+4. Use the command: /endgame_animation
 
 ## Notes
 - This is a proof of concept, not a production-ready plugin.
