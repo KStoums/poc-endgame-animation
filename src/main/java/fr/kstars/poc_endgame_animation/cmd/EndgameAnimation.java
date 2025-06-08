@@ -95,7 +95,7 @@ public class EndgameAnimation implements CommandExecutor {
         Title gameTerminatedTitle = Title.title(
                 Component.text("§6Game Terminated"),
                 Component.text("Teleport to lobby..."),
-                Title.Times.times(Duration.ofSeconds(3), Duration.ofSeconds(3), Duration.ofSeconds(3))
+                Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(3), Duration.ofSeconds(1))
         );
 
         player.showTitle(gameTerminatedTitle);
