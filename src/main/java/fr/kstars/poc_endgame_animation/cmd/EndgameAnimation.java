@@ -138,7 +138,7 @@ public class EndgameAnimation implements CommandExecutor {
                 Objects.requireNonNull(podiumList.get(index).getPlaceLocation().getWorld()).strikeLightningEffect(podiumList.get(index).getPlaceLocation());
                 npc.spawn(podiumList.get(index).getPlaceLocation());
 
-                player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
+                player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, index+1f);
                 index--;
             }
         }.runTaskTimer(plugin, 20L, 40L);
