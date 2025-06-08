@@ -75,8 +75,7 @@ public class EndgameAnimation implements CommandExecutor {
     }
 
     private void teleportPlayerFrontOfPodium(Player player) {
-        Location endGameSpecLocation = new Location(Bukkit.getWorld("lobby_world"), -0.484, 101, 0.537);
-        endGameSpecLocation.setYaw(-90);
+        Location endGameSpecLocation = new Location(Bukkit.getWorld("world"), 23.476, -8, 9.496, 180f, 0);
 
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "PODIUM SPECTATE NPC");
         npc.spawn(endGameSpecLocation);
@@ -111,9 +110,9 @@ public class EndgameAnimation implements CommandExecutor {
     }
 
     private void spawnTopPlayersOnPodium(Player player) {
-        Location firstPlaceLocation = new Location(Bukkit.getWorld("lobby_world"), 0.500, 102.500, 0.466, 90f, 0);
-        Location secondPlaceLocation = new Location(Bukkit.getWorld("lobby_world"), 0.492, 102, 1.489, 90f, 0);
-        Location lastPlaceLocation = new Location(Bukkit.getWorld("lobby_world"), 0.490, 101.500, -0.544, 90f, 0);
+        Location firstPlaceLocation = new Location(Bukkit.getWorld("world"), 23.450, -6.500, 8.465, 0f, 0);
+        Location secondPlaceLocation = new Location(Bukkit.getWorld("world"), 24.473, -7, 8.452, 0f, 0);
+        Location lastPlaceLocation = new Location(Bukkit.getWorld("world"), 22.460, -7.500, 8.462, 0f, 0);
 
         List<Podium> podiumList = new ArrayList<>(List.of(
                 new Podium("Kstars_", firstPlaceLocation),
