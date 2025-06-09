@@ -31,6 +31,8 @@ import java.util.Objects;
 public class EndgameAnimation implements CommandExecutor {
     private final JavaPlugin plugin;
     private final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+
+    private final ArrayList<NPC> npcs = new ArrayList<>();
     private GameMode lastPlayerGameMode = GameMode.SURVIVAL;
 
     private final Location WordSpawnLocation = new Location(Bukkit.getWorld("world"), 26.480, 0, 7.504, 0f, 0);
@@ -84,6 +86,7 @@ public class EndgameAnimation implements CommandExecutor {
 
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "PODIUM SPECTATE NPC");
         npc.spawn(endGameSpecLocation);
+        npcs.add(npc);
 
         new BukkitRunnable() {
             @Override
@@ -109,7 +112,10 @@ public class EndgameAnimation implements CommandExecutor {
                 removeCameraToEntity(player);
                 player.teleport(WordSpawnLocation);
                 player.setGameMode(lastPlayerGameMode);
-                CitizensAPI.getNPCRegistry().deregisterAll();
+
+                for (NPC npc : npcs) {
+                    CitizensAPI.getNPCRegistry().deregister(npc);
+                }
             }
         }.runTaskLater(plugin, 100L);
     }
@@ -139,6 +145,7 @@ public class EndgameAnimation implements CommandExecutor {
                 NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, podiumList.get(index).getWinnerName());
                 Objects.requireNonNull(podiumList.get(index).getPlaceLocation().getWorld()).strikeLightningEffect(podiumList.get(index).getPlaceLocation());
                 npc.spawn(podiumList.get(index).getPlaceLocation());
+                npcs.add(npc);
 
                 Sound podiumPlaceSound = switch (index) {
                     case 1 -> Sound.ENTITY_EVOKER_PREPARE_ATTACK; //Top 2
