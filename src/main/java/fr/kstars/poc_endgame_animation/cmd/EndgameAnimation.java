@@ -31,6 +31,7 @@ import java.util.Objects;
 public class EndgameAnimation implements CommandExecutor {
     private final JavaPlugin plugin;
     private final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+    private GameMode lastPlayerGameMode = GameMode.SURVIVAL;
 
     private final Location WordSpawnLocation = new Location(Bukkit.getWorld("world"), 26.480, 0, 7.504, 0f, 0);
 
@@ -58,6 +59,7 @@ public class EndgameAnimation implements CommandExecutor {
                     cancel();
                     player.resetTitle();
 
+                    lastPlayerGameMode = player.getGameMode();
                     player.setGameMode(GameMode.SPECTATOR);
                     teleportPlayerFrontOfPodium(player);
                     spawnTopPlayersOnPodium(player);
@@ -106,7 +108,7 @@ public class EndgameAnimation implements CommandExecutor {
             public void run() {
                 removeCameraToEntity(player);
                 player.teleport(WordSpawnLocation);
-                player.setGameMode(GameMode.SURVIVAL);
+                player.setGameMode(lastPlayerGameMode);
                 CitizensAPI.getNPCRegistry().deregisterAll();
             }
         }.runTaskLater(plugin, 100L);
@@ -138,7 +140,13 @@ public class EndgameAnimation implements CommandExecutor {
                 Objects.requireNonNull(podiumList.get(index).getPlaceLocation().getWorld()).strikeLightningEffect(podiumList.get(index).getPlaceLocation());
                 npc.spawn(podiumList.get(index).getPlaceLocation());
 
-                player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, index+1f);
+                Sound podiumPlaceSound = switch (index) {
+                    case 1 -> Sound.ENTITY_EVOKER_PREPARE_ATTACK; //Top 2
+                    case 0 -> Sound.ENTITY_ENDER_DRAGON_GROWL; //Top 1
+                    default -> Sound.ENTITY_ILLUSIONER_CAST_SPELL; //Top 3 and another if ur podium is > 3 slots
+                };
+
+                player.playSound(player.getLocation(), podiumPlaceSound, 1f, 1f);
                 index--;
             }
         }.runTaskTimer(plugin, 20L, 40L);
