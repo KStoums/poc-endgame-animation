@@ -69,7 +69,7 @@ public class EndgameAnimation implements CommandExecutor {
                 }
 
                 Title startingAnimationTitle = Title.title(
-                        Component.text("§6EndGame Animation"),
+                        Component.text("§4EndGame Animation"),
                         Component.text("Starting in " + startingAnimationTitleCooldown + " second(s)"),
                         Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(1), Duration.ofSeconds(1))
                 );
@@ -98,7 +98,7 @@ public class EndgameAnimation implements CommandExecutor {
 
     private void teleportPlayerInLobby(Player player) {
         Title gameTerminatedTitle = Title.title(
-                Component.text("§6Game Terminated"),
+                Component.text("§4Game Terminated"),
                 Component.text("Teleport to lobby..."),
                 Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(3), Duration.ofSeconds(1))
         );
