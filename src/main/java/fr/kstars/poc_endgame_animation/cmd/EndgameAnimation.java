@@ -148,9 +148,9 @@ public class EndgameAnimation implements CommandExecutor {
                 npcs.add(npc);
 
                 Sound podiumPlaceSound = switch (index) {
-                    case 1 -> Sound.ENTITY_EVOKER_PREPARE_ATTACK; //Top 2
-                    case 0 -> Sound.ENTITY_ENDER_DRAGON_GROWL; //Top 1
-                    default -> Sound.ENTITY_ILLUSIONER_CAST_SPELL; //Top 3 and another if ur podium is > 3 slots
+                    case 1 -> Sound.ENTITY_WITHER_SPAWN; //Top 2
+                    case 0 -> Sound.UI_TOAST_CHALLENGE_COMPLETE; //Top 1
+                    default -> Sound.ENTITY_PLAYER_LEVELUP; //Top 3 and another if ur podium is > 3 slots
                 };
 
                 player.playSound(player.getLocation(), podiumPlaceSound, 1f, 1f);
