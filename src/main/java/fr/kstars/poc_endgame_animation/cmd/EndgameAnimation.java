@@ -35,7 +35,7 @@ public class EndgameAnimation implements CommandExecutor {
     private final ArrayList<NPC> npcs = new ArrayList<>();
     private GameMode lastPlayerGameMode = GameMode.SURVIVAL;
 
-    private final Location worldSpawnLocation = new Location(Bukkit.getWorld("world"), 26.480, 0, 7.504, 0f, 0);
+    private final Location worldSpawnLocation = new Location(Bukkit.getWorld("world"), 26.480, 0, 7.504, 0, 0);
 
     public EndgameAnimation(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -82,7 +82,7 @@ public class EndgameAnimation implements CommandExecutor {
     }
 
     private void teleportPlayerFrontOfPodium(Player player) {
-        Location endGameSpecLocation = new Location(Bukkit.getWorld("world"), 23.476, -8, 9.496, 180f, 0);
+        Location endGameSpecLocation = new Location(Bukkit.getWorld("world"), 23.476, -8, 9.496, 180, 0);
 
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "PODIUM SPECTATE NPC");
         npc.spawn(endGameSpecLocation);
@@ -153,7 +153,7 @@ public class EndgameAnimation implements CommandExecutor {
                     default -> Sound.ENTITY_PLAYER_LEVELUP; //Top 3 and another if ur podium is > 3 slots
                 };
 
-                player.playSound(player.getLocation(), podiumPlaceSound, 1f, 1f);
+                player.playSound(player.getLocation(), podiumPlaceSound, 1, 1);
                 index--;
             }
         }.runTaskTimer(plugin, 20L, 40L);
