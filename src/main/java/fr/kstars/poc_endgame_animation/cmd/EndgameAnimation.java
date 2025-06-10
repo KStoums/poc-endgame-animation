@@ -35,7 +35,7 @@ public class EndgameAnimation implements CommandExecutor {
     private final ArrayList<NPC> npcs = new ArrayList<>();
     private GameMode lastPlayerGameMode = GameMode.SURVIVAL;
 
-    private final Location WordSpawnLocation = new Location(Bukkit.getWorld("world"), 26.480, 0, 7.504, 0f, 0);
+    private final Location worldSpawnLocation = new Location(Bukkit.getWorld("world"), 26.480, 0, 7.504, 0f, 0);
 
     public EndgameAnimation(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -110,7 +110,7 @@ public class EndgameAnimation implements CommandExecutor {
             @Override
             public void run() {
                 removeCameraToEntity(player);
-                player.teleport(WordSpawnLocation);
+                player.teleport(worldSpawnLocation);
                 player.setGameMode(lastPlayerGameMode);
 
                 for (NPC npc : npcs) {
