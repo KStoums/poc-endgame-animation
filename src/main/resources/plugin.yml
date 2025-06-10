@@ -1,6 +1,6 @@
 name: poc_endgame_animation
 author: Kstars_
-version: '1.0.6-POC'
+version: '1.0.7-POC'
 main: fr.kstars.poc_endgame_animation.Main
 api-version: '1.21'
 softdepend:

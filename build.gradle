@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'fr.kstars'
-version = '1.0.6-POC'
+version = '1.0.7-POC'
 
 repositories {
     mavenCentral()

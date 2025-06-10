@@ -121,9 +121,9 @@ public class EndgameAnimation implements CommandExecutor {
     }
 
     private void spawnTopPlayersOnPodium(Player player) {
-        Location firstPlaceLocation = new Location(Bukkit.getWorld("world"), 23.450, -6.500, 8.465, 0f, 0);
-        Location secondPlaceLocation = new Location(Bukkit.getWorld("world"), 24.473, -7, 8.452, 0f, 0);
-        Location lastPlaceLocation = new Location(Bukkit.getWorld("world"), 22.460, -7.500, 8.462, 0f, 0);
+        Location firstPlaceLocation = new Location(Bukkit.getWorld("world"), 23.450, -6.500, 8.465, 0, 0);
+        Location secondPlaceLocation = new Location(Bukkit.getWorld("world"), 24.473, -7, 8.452, 0, 0);
+        Location lastPlaceLocation = new Location(Bukkit.getWorld("world"), 22.460, -7.500, 8.462, 0, 0);
 
         List<Podium> podiumList = new ArrayList<>(List.of(
                 new Podium("Kstars_", firstPlaceLocation),
