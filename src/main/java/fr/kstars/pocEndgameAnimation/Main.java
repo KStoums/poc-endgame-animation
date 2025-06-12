@@ -1,6 +1,6 @@
-package fr.kstars.poc_endgame_animation;
+package fr.kstars.pocEndgameAnimation;
 
-import fr.kstars.poc_endgame_animation.cmd.EndgameAnimation;
+import fr.kstars.pocEndgameAnimation.cmd.EndgameAnimation;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;

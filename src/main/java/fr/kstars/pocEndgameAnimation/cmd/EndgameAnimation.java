@@ -1,10 +1,10 @@
-package fr.kstars.poc_endgame_animation.cmd;
+package fr.kstars.pocEndgameAnimation.cmd;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
-import fr.kstars.poc_endgame_animation.model.Podium;
+import fr.kstars.pocEndgameAnimation.model.Podium;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.kyori.adventure.text.Component;

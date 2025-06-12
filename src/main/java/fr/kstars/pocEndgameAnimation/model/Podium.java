@@ -1,4 +1,4 @@
-package fr.kstars.poc_endgame_animation.model;
+package fr.kstars.pocEndgameAnimation.model;
 
 import org.bukkit.Location;
 
